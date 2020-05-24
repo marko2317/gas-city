@@ -47,10 +47,10 @@ class BLEDataModel @Inject constructor(
                     logData = createLogDataFromDeviceId(data)
                     logData.saveDataIntoCSV(outputStream)
                     with(logData) {
-                        when {
-                            percentageEnd > 0 -> progressBarPercentage = percentageEnd.toInt()
-                            percentageStart > 0 -> progressBarPercentage =
-                                percentageStart.toInt()
+                        progressBarPercentage = if (showEndAngle) {
+                            percentageEnd.toInt()
+                        } else {
+                            percentageStart.toInt()
                         }
                     }
                     publisher.onNext(logData)

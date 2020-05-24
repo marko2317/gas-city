@@ -98,7 +98,8 @@ fun createLogDataFromDeviceId(data: ByteArray): LogData {
         angleStart = start,
         angleEnd = end,
         percentageStart = convertAngleToPercentage(start),
-        percentageEnd = convertAngleToPercentage(end)
+        percentageEnd = convertAngleToPercentage(end),
+        showEndAngle = x1.toInt() != 888 && y1.toInt() != 888
     )
 }
 

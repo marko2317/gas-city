@@ -14,7 +14,8 @@ data class LogData(
     val angleStart: Double,
     val angleEnd: Double,
     val percentageStart: Double,
-    val percentageEnd: Double
+    val percentageEnd: Double,
+    val showEndAngle: Boolean
 ) : BaseObservable() {
 
     @Bindable
