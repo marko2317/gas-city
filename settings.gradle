@@ -1,0 +1,2 @@
+rootProject.name='Gas City'
+include ':app'
