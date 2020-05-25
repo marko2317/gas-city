@@ -8,6 +8,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import io.reactivex.subjects.PublishSubject
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Singleton
 
 @Module
@@ -32,8 +34,10 @@ abstract class GasCityModule {
 
         @Provides
         @Singleton
-        fun provideFileOutput(application: GasCityApplication) =
-            application.applicationContext.openFileOutput(FILE_NAME, Context.MODE_APPEND)
+        fun provideFileOutput(application: GasCityApplication): FileOutputStream {
+            val file = File(application.baseContext.getExternalFilesDir(null), "log.csv")
+            return FileOutputStream(file)
+        }
 
         @Provides
         @Singleton
