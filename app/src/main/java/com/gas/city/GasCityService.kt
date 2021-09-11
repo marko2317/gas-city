@@ -6,7 +6,7 @@ import android.os.IBinder
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
-class GasCityService: Service() {
+class GasCityService : Service() {
 
     @Inject
     lateinit var viewModel: GasCityViewModel
@@ -29,7 +29,7 @@ class GasCityService: Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        sendRestartBroadcast()
+//        sendRestartBroadcast()
     }
 
     @ExperimentalUnsignedTypes

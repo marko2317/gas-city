@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-private const val ACCESS_COARSE_LOCATION_REQUEST = 1
+private const val ACCESS_FINE_LOCATION_REQUEST = 1
 
 class GasCityActivity @Inject constructor() : AppCompatActivity() {
 
@@ -34,6 +34,9 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
     @Inject
     lateinit var serviceIntent: Intent
 
+    @Inject
+    lateinit var dataModel: BLEDataModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -42,12 +45,14 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
 
         if (ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestPermission()
         } else {
-            startService(serviceIntent)
+//            startService(serviceIntent)
+            dataModel.createBLEScanner()
+            dataModel.startScan()
         }
 
         disposable = logDataObservable.observeOn(Schedulers.io())
@@ -63,15 +68,16 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            ACCESS_COARSE_LOCATION_REQUEST -> {
+            ACCESS_FINE_LOCATION_REQUEST -> {
                 if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
                     startService(serviceIntent)
                 } else if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_DENIED) {
-                    if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         dialog = createDialog(
                             "We need this permission to be able to run",
                             "Retry",
-                            DialogInterface.OnClickListener { _, _ -> requestPermission() })
+                            DialogInterface.OnClickListener { _, _ -> requestPermission() }
+                        )
                         dialog?.show()
                     } else {
                         showSettingsDialog()
@@ -83,12 +89,12 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        startService(serviceIntent)
+//        startService(serviceIntent)
     }
 
     override fun onStop() {
         super.onStop()
-        stopService(serviceIntent)
+//        stopService(serviceIntent)
         dialog?.dismiss()
     }
 
@@ -96,7 +102,8 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
         dialog = createDialog(
             "Please grant permission in the setting menu to be able to open the app",
             "Settings",
-            DialogInterface.OnClickListener { _, _ -> goToSettings() })
+            DialogInterface.OnClickListener { _, _ -> goToSettings() }
+        )
         dialog?.show()
     }
 
@@ -113,16 +120,17 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-            ACCESS_COARSE_LOCATION_REQUEST
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            ACCESS_FINE_LOCATION_REQUEST
         )
     }
 
     private fun goToSettings() {
-        startActivity(Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.parse("package:$packageName")
-        })
+        startActivity(
+            Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.parse("package:$packageName")
+            }
+        )
         finish()
     }
-
 }

@@ -44,8 +44,9 @@ class BLEDataModel @Inject constructor(
             val serviceData = scanRecord?.getServiceData(eddystoneServiceUuid)
             serviceData?.let { data ->
                 if (data[0] == EDDYSTONE_UID_FRAME_TYPE) {
-                    logData = createLogDataFromDeviceId(data)
-                    logData.saveDataIntoCSV(outputStream)
+//                    logData = createLogDataFromDeviceId(data)
+//                    logData.saveDataIntoCSV(outputStream)
+
                     with(logData) {
                         progressBarPercentage = if (showEndAngle) {
                             percentageEnd.toInt()
