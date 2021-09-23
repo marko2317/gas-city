@@ -1,35 +1,30 @@
 package com.gas.city
 
 import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 
 data class LogData(
+    val rangingData: String,
+    val productId: String,
+    val frameType: FrameType,
     val deviceId: String,
-    val dateTime: String,
-    val battery: Float,
-    val startX: String,
-    val startY: String,
-    val endX: String,
-    val endY: String,
-    val angleStart: Double,
-    val angleEnd: Double,
-    val percentageStart: Double,
-    val percentageEnd: Double,
-    val showEndAngle: Boolean
+    val tankLevelInit: String,
+    val tankLevelEnd: String,
+    val vbatt: String,
+    val txSequence: String,
+    val tankLevel: Int
 ) : BaseObservable() {
 
-    @Bindable
-    var progressBarPercentage: Int = 0
-        set(value) {
-            field = value
-            percentageText = value.toString()
-            notifyPropertyChanged(BR.progressBarPercentage)
-        }
+    enum class FrameType(value: String) {
+        TYPE_A("A"), TYPE_B("B"), TYPE_C("C"), TYPE_D("D"), INVALID("");
 
-    @Bindable
-    var percentageText: String = ""
-        set(value) {
-            field = "$value%"
-            notifyPropertyChanged(BR.percentageText)
+        companion object {
+            fun fromChar(char: Char) = when (char) {
+                'A' -> TYPE_A
+                'B' -> TYPE_B
+                'C' -> TYPE_C
+                'D' -> TYPE_D
+                else -> INVALID
+            }
         }
+    }
 }

@@ -34,9 +34,6 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
     @Inject
     lateinit var serviceIntent: Intent
 
-    @Inject
-    lateinit var dataModel: BLEDataModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -50,15 +47,13 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
         ) {
             requestPermission()
         } else {
-//            startService(serviceIntent)
-            dataModel.createBLEScanner()
-            dataModel.startScan()
+            startService(serviceIntent)
         }
 
         disposable = logDataObservable.observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe { logData ->
-                binding.data = logData
+                binding.viewModel = LogDataViewModel(logData, this)
             }
     }
 
@@ -89,12 +84,12 @@ class GasCityActivity @Inject constructor() : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        startService(serviceIntent)
+        startService(serviceIntent)
     }
 
     override fun onStop() {
         super.onStop()
-//        stopService(serviceIntent)
+        stopService(serviceIntent)
         dialog?.dismiss()
     }
 

@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="tank_level_25">#f21505</color>
+    <color name="tank_level_50">#f2d205</color>
+    <color name="tank_level_75">#87f205</color>
+    <color name="tank_level_100">#26c702</color>
 </resources>

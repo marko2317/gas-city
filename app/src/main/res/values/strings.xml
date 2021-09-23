@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Gas City</string>
+    <string name="tank_level_title">NIVEL DEL TANQUE</string>
+    <string name="date_title">RECEPCION DE LECTURA</string>
+    <string name="device_id_cta">ID DISPOSITIVO</string>
 </resources>

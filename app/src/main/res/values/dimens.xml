@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tank_level_text_size">90sp</dimen>
+    <dimen name="default_top_margin">16dp</dimen>
+    <dimen name="default_padding">24dp</dimen>
+</resources>

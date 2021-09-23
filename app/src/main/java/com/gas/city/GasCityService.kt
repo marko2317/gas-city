@@ -20,7 +20,6 @@ class GasCityService : Service() {
         super.onCreate()
     }
 
-    @ExperimentalUnsignedTypes
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         startScanning()
@@ -32,7 +31,6 @@ class GasCityService : Service() {
 //        sendRestartBroadcast()
     }
 
-    @ExperimentalUnsignedTypes
     private fun startScanning() {
         viewModel.createBLEScanner()
         viewModel.startScan()
